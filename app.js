@@ -5,11 +5,10 @@ const db = require('./config/keys').mongoURI;
 const users = require("./routes/api/users");
 const tweets = require("./routes/api/tweets");
 const bodyParser = require('body-parser');
-
 const passport = require('passport');
-
 const User = require('./models/User');
-const path = require('path');
+
+const path = require("path");
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('frontend/build'));
@@ -23,27 +22,15 @@ mongoose
   .then(() => console.log("Connected to MongoDB successfully"))
   .catch(err => console.log(err));
 
-
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
-// app.get("/", (req, res) => {
-//     const user = new User({
-//       handle: "Joe",
-//       email: "joe@123.com",
-//       password: "123456"
-//     })
-//     user.save()
-// });
 
 app.use(passport.initialize());
 require('./config/passport')(passport);
 
 app.use("/api/users", users);
 app.use("/api/tweets", tweets);
-
 
 const port = process.env.PORT || 5000;
 
